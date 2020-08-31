@@ -3,6 +3,7 @@ title: "index"
 author: "Rovin Sharma"
 date: "8/31/2020"
 output: html_document
+bibliography: data/references.bib
 ---
 
 [Introduction to R and Reproducible Research](lab1_rovinsharma.html)
