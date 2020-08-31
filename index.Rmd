@@ -16,4 +16,4 @@ output: html_document
   Type                     = {Journal Article},
   Url                      = {http://www.R-project.org}
 }
-#REFERENCE
+# REFERENCES
