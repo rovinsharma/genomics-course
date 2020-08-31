@@ -1,0 +1,57 @@
+---
+title: "lab2_rovinsharma"
+author: "Rovin Sharma"
+output: html_document
+bibliography: data/references.bib
+---
+
+---
+title: "lab1_rovinsharma"
+author: "Rovin Sharma"
+date: "8/31/2020"
+output: html_document
+---
+
+###Exercise 1
+x <- 3
+y <- 15
+x + y
+x - y
+x * y
+x / y
+
+###Exercise 2
+x <- 2
+y <- 3
+x^5 > y^4
+
+###Exercise 3
+x <- c(22, 62, 148, 43, 129)
+y <- sum (x)
+y
+x / y
+
+###Exercise 4
+Nucleotides <- c("A", "T", "C", "G")
+sort (Nucleotides)
+
+###references
+@Misc{Chang2015,
+  Title                    = {shiny: Web Application Framework for R. R package version 0.12.1},
+
+  Author                   = {Chang, W. and Cheng, J. and Allaire, JJ. and Xie, Y. and McPherson, J. },
+  Year                     = {2015},
+
+  Type                     = {Computer Program},
+  Url                      = {http://CRAN.R-project.org/package=shiny}
+}
+
+
+@Article{RCoreTeam,
+  Title                    = {R: A Language and Environment for Statistical Computing},
+  Author                   = {{R Core Team}},
+  Year                     = {2015},
+
+  Type                     = {Journal Article},
+  Url                      = {http://www.R-project.org}
+}
