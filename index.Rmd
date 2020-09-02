@@ -1,12 +1,16 @@
 ---
-title: "index"
+title: "Index"
 author: "Rovin Sharma"
 date: "8/31/2020"
 output: html_document
 bibliography: data/references.bib
 ---
+This is Rovin's course repository HTML file.
 
-[Introduction to R and Reproducible Research](lab1_rovinsharma.html)
+![](images/Teletubby.jpg)
+
+## Labs
+
+1. [Introduction to R and Reproducible Research](lab1_rovinsharma.html)
 
 
-# REFERENCES
