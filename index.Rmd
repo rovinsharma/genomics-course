@@ -5,7 +5,7 @@ date: "8/31/2020"
 output: html_document
 bibliography: data/references.bib
 ---
-This is Rovin's course repository HTML file.
+This contains links for Rovin's genomics labs.
 
 ![:-)](images/Teletubby.jpg)
 
@@ -14,5 +14,6 @@ This is Rovin's course repository HTML file.
 1. [Introduction to R and Reproducible Research](lab1_rovinsharma.html)
 2. [Github and RStudio](lab2_rovinsharma.html)
 3. [Starting with the Data](lab3a_rovinsharma.html)
+
    [Manipulating Data](lab3b_rovinsharma.html)
 
