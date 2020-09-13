@@ -1,0 +1,23 @@
+---
+title: "Lab3A"
+author: "Rovin Sharma"
+date: "9/7/2020"
+output: html_document
+---
+
+# Starting with the Data
+
+```
+download.file(url="https://ndownloader.figshare.com/files/2292169",
+              destfile = "data/portal_data_joined.csv")
+
+surveys <- read_csv("data/portal_data_joined.csv")              
+```
+
+# Challenge 1
+```
+ str(surveys)
+``` 
+The class of object "surveys" is data.frame, it has 34786 rows and 13 columns.
+There are 48 species, but I am not sure how I could find that from the output of str.
+
