@@ -5,7 +5,7 @@ output: html_document
 bibliography: data/references.bib
 ---
 
-
+```
 ###Exercise 1
 x <- 3
 y <- 15
@@ -28,5 +28,5 @@ x / y
 ###Exercise 4
 Nucleotides <- c("A", "T", "C", "G")
 sort (Nucleotides)
-
+```
 # REFERENCES
