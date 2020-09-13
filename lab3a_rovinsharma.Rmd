@@ -14,10 +14,96 @@ download.file(url="https://ndownloader.figshare.com/files/2292169",
 surveys <- read_csv("data/portal_data_joined.csv")              
 ```
 
-# Challenge 1
+*Challenge 1*
 ```
  str(surveys)
 ``` 
 The class of object "surveys" is data.frame, it has 34786 rows and 13 columns.
 There are 48 species, but I am not sure how I could find that from the output of str.
 
+*Challenge 2*
+```
+surveys_200 <- surveys[200, ]
+
+surveys_last <- surveys[nrow(surveys), ]
+
+surveys_middle <- surveys[nrow(surveys)/2, ]
+
+surveys[-(7:nrow(surveys)), ]
+```
+
+*Factors*
+```
+sex <- factor(c("male", "female", "female", "male"))
+
+levels(sex)
+nlevels(sex)
+
+sex <- factor(sex, levels = c("male", "female"))
+sex
+```
+
+*Converting Factors*
+```
+year_fct <- factor(c(1990, 1983, 1977, 1998, 1990))
+as.numeric(as.character(year_fct))
+as.numeric(levels(year_fct))[year_fct]
+year_fct
+```
+
+*Renaming Factors*
+```
+sex <- factor(surveys$sex)
+head(sex)
+levels(sex)
+
+levels(sex)[1] <- "undetermined"
+```
+
+*Challenge 3*
+```
+levels(sex)[2] <- "female"
+levels(sex)[3] <- "male"
+
+sex <- factor(sex, levels = c("female", "male", "undetermined"))
+plot(sex)
+```
+*Challenge 4*
+```
+animal_data <- data.frame(
+          animal = c("dog", "cat", "sea cucumber", "sea urchin"),
+          feel = c("furry", "squishy", "leathery", "spiny"),
+          weight = c(45, 8, 1.1, 0.8)
+          )
+```
+```
+country_climate <- data.frame(
+       country = c("Canada", "Panama", "South Africa", "Australia"),
+       climate = c("cold", "hot", "temperate", "hot/temperate"),
+       temperature = c(10, 30, 18, 15),
+       northern_hemisphere = c(TRUE, TRUE, FALSE, FALSE),
+       has_kangaroo = c(FALSE, FALSE, FALSE, TRUE)
+       )
+```
+The characters are treated as factors, but they would've been vectors with stringsAsFactors = FALSE. My code has the changes to reflect the right data type. The quotes in northern_hemisphere and temperature were removed, and the 1 in has_kangaroo was changed to TRUE.
+
+*Formatting Dates*
+```
+library("lubridate")
+
+my_date <- ymd("2015-01-01")
+
+my_date <- ymd(paste("2015", "1", "1", sep = "-")) 
+
+#applying to surveys
+
+paste(surveys$year, surveys$month, surveys$day, sep = "-")
+ymd(paste(surveys$year, surveys$month, surveys$day, sep = "-"))
+
+surveys$date <- ymd(paste(surveys$year, surveys$month, surveys$day, sep = "-"))
+
+summary(surveys$date)
+
+missing_dates <- surveys [is.na(surveys$date), c("year", "month", "day")]
+head(missing_dates)
+```
