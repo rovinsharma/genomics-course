@@ -13,5 +13,6 @@ This is Rovin's course repository HTML file.
 
 1. [Introduction to R and Reproducible Research](lab1_rovinsharma.html)
 2. [Github and RStudio](lab2_rovinsharma.html)
-
+3. [Starting with the Data](lab3a_rovinsharma.html)
+   [Manipulating Data](lab3b_rovinsharma.html)
 
