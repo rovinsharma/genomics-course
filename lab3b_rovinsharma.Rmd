@@ -1,0 +1,61 @@
+---
+title: "Lab 3b"
+author: "Rovin Sharma"
+date: "9/13/2020"
+output: html_document
+---
+
+# Manipulating Data
+
+```
+library("tidyverse")
+surveys <- read_csv("data/portal_data_joined.csv")
+```
+*Selecting columns and filtering rows*
+```
+select(surveys, plot_id, species_id, weight)
+select(surveys, -record_id, -species_id)
+filter(surveys, year == 1995)
+```
+*Pipes*
+```
+#intermediate steps
+surveys2 <- filter(surveys, weight < 5)
+surveys_sml <- select(surveys2, species_id, sex, weight)
+
+#nested functions
+surveys_sml <- select(filter(surveys, weight < 5), species_id, sex, weight)
+
+#pipes
+surveys_sml <- surveys %>% 
+  filter(weight < 5) %>% 
+  select(species_id, sex, weight)
+```
+
+*Challenge 1*
+```
+surveys %>% 
+  filter(year < 1995) %>% 
+  select(year, sex, weight)
+```
+
+*Mutations*
+```
+surveys %>% 
+  mutate(weight_kg = weight / 1000)
+
+surveys %>% 
+  mutate(weight_kg = weight /100) %>% 
+  head()
+```
+
+*Challenge 2*
+```
+hindfoot <- surveys %>% 
+  filter(!is.na(hindfoot_length)) %>% 
+  mutate(hindfoot_cm = hindfoot_length / 10) %>% 
+  filter(hindfoot_cm < 3) %>% 
+  select(species_id, hindfoot_cm)
+```
+
+  
