@@ -16,4 +16,10 @@ This contains links for Rovin's genomics labs.
 3. [Starting with the Data](lab3a_rovinsharma.html)
 
    [Manipulating Data](lab3b_rovinsharma.html)
+4. [Data Wrangling and Graphing COVID-19 Reporting Data Pt 1](lab4_rovinsharma.html)
+
+   [Data Visualization with ggplot2](lab4a_rovinsharma.html)
+   
+   
+    
 

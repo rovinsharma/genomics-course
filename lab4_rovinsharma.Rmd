@@ -1,0 +1,89 @@
+---
+title: "Lab 4"
+author: "Rovin Sharma"
+date: "9/20/2020"
+output: html_document
+---
+
+#Setup
+```
+library(tidyverse)
+library(DT)
+
+report_03_11_2020 <-   read_csv(url("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/03-11-2020.csv")) %>%
+  rename(Country_Region = "Country/Region", Province_State = "Province/State")
+
+str(report_03_11_2020)  
+view(report_03_11_2020)
+```
+
+#DT
+```
+datatable(report_03_11_2020)
+```
+
+
+#Exercises Part 1
+
+*1.*
+```
+report_03_12 <- read_csv(url("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/03-12-2020.csv")) %>% 
+  rename(Country_Region = "Country/Region", Province_State = "Province/State")
+  
+report_09_12 <- read_csv(url("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/09-12-2020.csv"))
+
+view(report_03_12)
+str(report_03_12)
+
+view(report_09_12)
+str(report_09_12)
+```
+The changes between 3/12/2020 and 9/12/2020 data tables:
+3/12 has fewer rows as expected, but it also has fewer columns. 8 columns compared to the 14 columns in 9/12.
+9/12 has changed some column names, simplifying latitude and longitude to Lat and Long, respectively.
+9/12 also replaced "/" with "_"
+
+*2.*
+```
+report_03_12 %>% 
+  group_by(Country_Region) %>% 
+  summarize(States_Provinces = n(), 
+            total_confirmed = sum(Confirmed)) %>% 
+            datatable()
+
+
+report_09_12 %>% 
+  group_by(Country_Region) %>% 
+  summarize(States_Provinces = n(),
+            total_confirmed = sum(Confirmed)) %>% 
+            datatable()
+```
+*3.*
+```
+report_03_12 %>% 
+  filter(Country_Region == "US") %>% 
+  group_by(Country_Region) %>% 
+  summarize(States = n(),
+            total_confirmed = sum(Confirmed))
+            
+report_09_12 %>% 
+  filter(Country_Region == "US") %>% 
+  group_by(Country_Region) %>% 
+  summarize(total_confirmed = sum(Confirmed))
+```
+*4.*
+```
+report_03_12 %>% 
+  group_by(Country_Region) %>% 
+  summarize(total_deaths = sum(Deaths)) %>% 
+  arrange(desc(total_deaths)) %>% 
+  slice_head(n = 10) %>% 
+  datatable()
+ 
+report_09_12 %>% 
+  group_by(Country_Region) %>% 
+  summarize(total_deaths = sum(Deaths)) %>% 
+  arrange(desc(total_deaths)) %>% 
+  slice_head(n = 10) %>% 
+  datatable()
+```
