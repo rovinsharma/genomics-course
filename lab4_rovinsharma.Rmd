@@ -87,3 +87,52 @@ report_09_12 %>%
   slice_head(n = 10) %>% 
   datatable()
 ```
+*5.*
+Setting up objects sorted with necessary data for plots
+```
+report_03_12_cases <- report_03_12 %>% 
+                      group_by(Country_Region) %>% 
+                      summarize(total_cases = sum(Confirmed)) %>% 
+                      arrange(desc(total_cases)) %>% 
+                      slice_head(n = 10)
+
+report_03_12_deaths <- report_03_12 %>% 
+                      group_by(Country_Region) %>% 
+                      summarize(total_deaths = sum(Deaths)) %>% 
+                      arrange(desc(total_deaths)) %>% 
+                      slice_head(n = 10)
+                      
+report_09_12_cases <- report_09_12 %>% 
+                      group_by(Country_Region) %>% 
+                      summarize(total_cases = sum(Confirmed)) %>% 
+                      arrange(desc(total_cases)) %>% 
+                      slice_head(n = 10)  
+
+report_09_12_deaths <- report_09_12 %>% 
+                      group_by(Country_Region) %>% 
+                      summarize(total_deaths = sum(Deaths)) %>% 
+                      arrange(desc(total_deaths)) %>% 
+                      slice_head(n = 10)
+```                      
+Creating the plots
+```
+report_03_12_cases_plot <- ggplot(report_03_12_cases, aes(x = Country_Region, y = total_cases)) + geom_point()
+
+report_03_12_deaths_plot <- ggplot(report_03_12_deaths, aes(x = Country_Region, y = total_deaths)) + geom_point()
+
+report_09_12_cases_plot <- ggplot(report_09_12_cases, aes(x = Country_Region, y = total_cases)) + geom_point()
+
+report_09_12_deaths_plot <- ggplot(report_09_12_deaths, aes(x = Country_Region, y = total_deaths)) + geom_point()
+```
+*6.*
+Creating the bar plots
+```
+report_03_12_cases_bar <- ggplot(report_03_12_cases, aes(x = Country_Region, y = total_cases)) + geom_bar(stat = 'identity')
+
+report_03_12_deaths_bar <- ggplot(report_03_12_deaths, aes(x = Country_Region, y = total_deaths)) + geom_bar(stat = 'identity')
+
+report_09_12_cases_bar <- ggplot(report_09_12_cases, aes(x = Country_Region, y = total_cases)) + geom_bar(stat = 'identity')
+
+report_09_12_deaths_bar <- ggplot(report_09_12_deaths, aes(x = Country_Region, y = total_deaths)) + geom_bar(stat = 'identity')
+```
+                      
