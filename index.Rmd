@@ -9,7 +9,7 @@ This contains links for Rovin's genomics labs.
 
 ![:-)](images/Teletubby.jpg)
 
-## Labs
+# Labs
 
 1. [Introduction to R and Reproducible Research](lab1_rovinsharma.html)
 2. [Github and RStudio](lab2_rovinsharma.html)
@@ -18,7 +18,9 @@ This contains links for Rovin's genomics labs.
    [Manipulating Data](lab3b_rovinsharma.html)
 4. [Data Wrangling and Graphing COVID-19 Reporting Data Pt 1](lab4_rovinsharma.html)
 
-   [Data Visualization with ggplot2](lab4a_rovinsharma.html)
+   [Data Visualization with ggplot2 pt 1](lab4a_rovinsharma.html)
+   
+   [Data Visualization with ggplot2 pt 2](lab4b_rovinsharma.html)
    
    
     
