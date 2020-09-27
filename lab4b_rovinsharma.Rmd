@@ -19,7 +19,7 @@ yearly_counts <- surveys_complete %>%
   count(year, genus)
 ```
 
-```{r message=FALSE, fig.show = 'hide'}
+```{r message=FALSE}
 ggplot(data = yearly_counts, aes (x = year, y = n)) +
   geom_line()
 ```
@@ -28,13 +28,104 @@ ggplot(data = yearly_counts, aes (x = year, y = n)) +
 ggplot(data = yearly_counts, aes(x = year, y = n, group = genus)) +
   geom_line()
 ```
+
 ```{r, message = FALSE, fig.show='hide'}
 ggplot(data = yearly_counts, aes(x = year, y = n, color = genus))+
   geom_line()
 ```
 
-```{r, message=FALSE, fig.show='hide'}
+**Pipe Operator w/ ggplot2**
+
+```{r, message=FALSE}
 yearly_counts %>% 
   ggplot(aes(x = year, y = n, color = genus))+
   geom_line()
+```
+
+```{r, message=FALSE, fig.show = 'hide'}
+yearly_counts_graph <- surveys_complete %>% 
+  count(year, genus) %>% 
+  ggplot(aes(x = year, y = n, color = genus)) +
+    geom_line()
+
+yearly_counts_graph
+```
+
+**Faceting**
+
+```{r}
+ggplot(data = yearly_counts, aes(x = year, y = n))+
+  geom_line() +
+    facet_wrap(facets = vars(genus))
+```
+
+```{r, message = FALSE}
+yearly_sex_counts <- surveys_complete %>% 
+  count(year, genus, sex)
+```
+```{r}
+ggplot(data = yearly_sex_counts, aes(x = year, y = n, color = sex)) +
+  geom_line()+
+    facet_wrap(facets = vars(genus))
+```
+```{r}
+ggplot(data = yearly_sex_counts, aes(x = year, y = n, color = sex))+
+  geom_line() +
+    facet_grid(rows = vars(sex), cols = vars(genus))
+```
+```{r}
+ggplot(data = yearly_sex_counts, aes(x = year, y = n, color = sex)) +
+  geom_line() +
+    facet_grid(rows = vars(genus))
+```
+
+**ggplot 2 Themes**
+
+```{r}
+ggplot(data = yearly_sex_counts, aes(x = year, y = n, color = sex))+
+  geom_line() +
+  facet_wrap(vars(genus))+
+  theme_bw()
+```
+
+# Challenge
+```{r}
+avg_weight_yrs <- surveys_complete %>% 
+  group_by(year, species) %>% 
+  summarize(avg_weight = mean(weight))
+```
+```{r}
+ggplot(data = avg_weight_yrs, aes(x = year, y = avg_weight))+
+  geom_line() +
+  facet_wrap(vars(species))
+```
+**Customization**
+```{r}
+ggplot(data = yearly_sex_counts, aes(x = year, y = n, color = sex))+
+  geom_line()+
+  facet_wrap(vars(genus)) +
+  labs(title = "Observed genera through time", x = "Year of observation", y = "Number of individuals")+
+  theme_bw() +
+  theme(axis.text.x = element_text(color = "grey20", size = 12, angle = 90, hjust = 0.5, vjust = 0.5),
+        axis.text.y = element_text(color = "grey20", size = 12),
+        strip.text = element_text(face = "italic"),
+        text = element_text(size = 16))
+```
+# Challenge 2
+```{r}
+hindfoot_over_yrs <- surveys_complete %>% 
+  group_by(species) %>% 
+  count(hindfoot_length, year)
+```
+
+```{r}
+ggplot(data = hindfoot_over_yrs, aes(x = year, y = n, color = hindfoot_length))+
+  geom_line() +
+  facet_wrap(vars(species)) +
+  labs(title = "Observed Hindfoot Length through Time", x = "Year of Observation", y = "Number of individuals") +
+  theme_bw()+
+  theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 90, hjust = 0.5, vjust = 0.5),
+        axis.text.y = element_text(color = "grey20", size = 8),
+        strip.text = element_text(color = "grey30"),
+        text = element_text(size = 16))
 ```
