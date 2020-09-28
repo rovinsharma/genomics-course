@@ -21,6 +21,7 @@ This contains links for Rovin's genomics labs.
    [Data Visualization with ggplot2 pt 1](lab4a_rovinsharma.html)
    
    [Data Visualization with ggplot2 pt 2](lab4b_rovinsharma.html)
+5. [Data Wrangling and Graphing COVID-19 Reporting Data Pt 2](lab5_rovinsharma.html)
    
    
     
