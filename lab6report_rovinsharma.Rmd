@@ -17,7 +17,7 @@ library(plotly)
 library(RColorBrewer)
 ```
 
-**This is exercise 5 of Lab 6**
+**This is the report portion of Lab 6**
 
 [Link to Lab 6](lab6_rovinsharma.html)
 

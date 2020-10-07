@@ -81,7 +81,7 @@ ggplot(daily_report, aes(x = Long, y = Lat, size = Confirmed)) +
     coord_fixed(ratio=1.5)
 ```
 
-#Exercise 3
+# Exercise 3
 
 ```{r}
 report_09_26_2020 <-   read_csv(url("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/09-26-2020.csv")) %>% 
@@ -142,3 +142,8 @@ ggplotly(
   theme(axis.text = element_blank())
 )
 ```
+
+# Exercise 5
+
+[Lab 6 report](lab6report_rovinsharma.html)
+
