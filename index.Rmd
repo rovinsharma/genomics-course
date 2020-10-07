@@ -24,8 +24,7 @@ This contains links for Rovin's genomics labs.
 5. [Data Wrangling and Graphing COVID-19 Reporting Data Pt 2](lab5_rovinsharma.html)
    
    [Extra: Interactive Graphs and Animations](lab5x_rovinsharma.html)
-   
-   
+6. [Data Maps and Interactive Graphs from the COVID-19 reporting data](lab6_rovinsharma.html)
    
     
 
