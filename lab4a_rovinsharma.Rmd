@@ -7,32 +7,38 @@ output: html_document
 
 This is the auxiliary part of Lab 4 that contains examples and challenges from "Data visualization with ggplot2"
 
-#Setup
-```
-library(tidyverse)
+# Setup
 
+```{r, include = FALSE, message = FALSE, error = FALSE}
+library(tidyverse)
+```
+```{r}
 surveys_complete <- read_csv("data/surveys_complete.csv")
 ```
 
-#Building ggplot
-```
+# Building ggplot
+
+```{r}
 ggplot(data = surveys_complete)
  
 ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length))
 ```
+
 *adding 'geoms'*
-```
+
+```{r}
 ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length)) + geom_point()
 ```
-```
+```{r}
 surveys_plot <- ggplot(data = surveys_complete, mapping = aes( x = weight, y = hindfoot_length))
 
 surveys_plot+
   geom_point()
 ```
-#Challenge 1
-```
-install.packages("hexbin")
+
+# Challenge 1
+
+```{r}
 library(hexbin)
 
 surveys_plot +
@@ -40,47 +46,64 @@ surveys_plot +
 ```
 Hexagonal bin plot allows for visualization of observation clusters, but distribution of data points is much harder to notice and map to corresponding x and y axis.
 
-#Building plots iteratively
-```
+# Building plots iteratively
+
+```{r}
 ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length)) + geom_point()
 ```
+
 *adding transparency*
-```
+
+```{r}
 ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length)) + geom_point(alpha = 0.1)
 ```
+
 *adding color*
-```
+
+```{r}
 ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length)) + geom_point(alpha = 0.1, color = "blue")
 ```
+
 *adding color to different values*
-```
+
+```{r}
 ggplot(data = surveys_complete, aes(x = weight, y = hindfoot_length)) + 
   geom_point(alpha = 0.1, aes(color = species_id))
 ```
-#Challenge 2
-```
+
+# Challenge 2
+
+```{r}
 ggplot(data = surveys_complete, aes(x = species_id, y = weight)) +
   geom_point(aes(color = plot_type))
 ```
-#Boxplot
-```
+
+# Boxplot
+
+```{r}
 ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
     geom_boxplot()
 ```
+
 *adding points*
-```
+
+```{r}
 ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
   geom_boxplot(alpha = 0) +
     geom_jitter(alpha = 0.3, color = "tomato")
 ```
-#Challenge 3
-```
+
+# Challenge 3
+
+```{r}
 ggplot(data = surveys_complete, aes(x = species_id, y = weight)) +
   geom_violin() +
     scale_y_log10()
 ```
+
 *boxplot for hindfoot length*
-```
+
+```{r}
 ggplot(surveys_complete, aes(x = species_id, y = hindfoot_length)) +
   geom_jitter(alpha = 0.5, color = "tomato") +
     geom_boxplot(alpha = 0.5, color = "sky blue")

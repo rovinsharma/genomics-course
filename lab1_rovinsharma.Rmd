@@ -5,7 +5,7 @@ date: "9/13/2020"
 output: html_document
 ---
 
-```
+```{r}
 ###Exercise 1
 x <- 3
 y <- 15

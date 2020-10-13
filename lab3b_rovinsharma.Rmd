@@ -7,18 +7,22 @@ output: html_document
 
 # Manipulating Data
 
-```
+```{r, message = FALSE, error = FALSE}
 library("tidyverse")
 surveys <- read_csv("data/portal_data_joined.csv")
 ```
+
 *Selecting columns and filtering rows*
-```
+
+```{r}
 select(surveys, plot_id, species_id, weight)
 select(surveys, -record_id, -species_id)
 filter(surveys, year == 1995)
 ```
+
 *Pipes*
-```
+
+```{r}
 #intermediate steps
 surveys2 <- filter(surveys, weight < 5)
 surveys_sml <- select(surveys2, species_id, sex, weight)
@@ -33,14 +37,16 @@ surveys_sml <- surveys %>%
 ```
 
 *Challenge 1*
-```
+
+```{r}
 surveys %>% 
   filter(year < 1995) %>% 
   select(year, sex, weight)
 ```
 
 *Mutations*
-```
+
+```{r}
 surveys %>% 
   mutate(weight_kg = weight / 1000)
 
@@ -50,15 +56,17 @@ surveys %>%
 ```
 
 *Challenge 2*
-```
+```{r}
 hindfoot <- surveys %>% 
   filter(!is.na(hindfoot_length)) %>% 
   mutate(hindfoot_cm = hindfoot_length / 10) %>% 
   filter(hindfoot_cm < 3) %>% 
   select(species_id, hindfoot_cm)
 ```
+
 *Split-apply-combine*
-```
+
+```{r}
 surveys %>%
   group_by(sex) %>%
   summarize(mean_weight = mean(weight, na.rm = TRUE))
@@ -68,8 +76,10 @@ surveys %>%
   group_by(sex, species_id) %>%
   summarize(mean_weight = mean(weight))  
 ```
+
 *Counting*
-```
+
+```{r}
 surveys %>%
     count(sex) 
 
@@ -81,7 +91,8 @@ surveys %>%
 ```
 
 *Challenge 3*
-```
+
+```{r}
 surveys %>% 
   count(plot_type)
 
@@ -96,8 +107,10 @@ surveys %>%
   filter(weight == max(weight)) %>% 
   select(year, genus, species, weight)
 ```
+
 *Spread and Gather*
-```
+
+```{r}
 surveys_gw <- surveys %>%
   filter(!is.na(weight)) %>%
   group_by(plot_id, genus) %>%
@@ -116,7 +129,8 @@ str(surveys_gather)
 ```
 
 *Challenge 4*
-```
+
+```{r}
 surveys_spread_genera <- surveys %>%
   group_by(plot_id, year) %>%
   summarize(n_genera = n_distinct(genus)) %>%
@@ -135,7 +149,8 @@ surveys_long %>%
 ```
 
 *Exporting*
-```
+
+```{r}
 surveys_complete <- surveys %>%
   filter(!is.na(weight),          
          !is.na(hindfoot_length),

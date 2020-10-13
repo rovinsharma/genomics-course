@@ -6,7 +6,7 @@ output: html_document
 ---
 
 #Setup
-```
+```{r, message = FALSE, erro = FALSE}
 library(tidyverse)
 library(DT)
 
@@ -18,7 +18,7 @@ view(report_03_11_2020)
 ```
 
 #DT
-```
+```{r}
 datatable(report_03_11_2020)
 ```
 
@@ -26,7 +26,7 @@ datatable(report_03_11_2020)
 #Exercises Part 1
 
 *1.*
-```
+```{r}
 report_03_12 <- read_csv(url("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/03-12-2020.csv")) %>% 
   rename(Country_Region = "Country/Region", Province_State = "Province/State")
   
@@ -44,7 +44,7 @@ The changes between 3/12/2020 and 9/12/2020 data tables:
 9/12 also replaced "/" with "_"
 
 *2.*
-```
+```{r}
 report_03_12 %>% 
   group_by(Country_Region) %>% 
   summarize(States_Provinces = n(), 
@@ -59,7 +59,7 @@ report_09_12 %>%
             datatable()
 ```
 *3.*
-```
+```{r}
 report_03_12 %>% 
   filter(Country_Region == "US") %>% 
   group_by(Country_Region) %>% 
@@ -72,7 +72,7 @@ report_09_12 %>%
   summarize(total_confirmed = sum(Confirmed))
 ```
 *4.*
-```
+```{r}
 report_03_12 %>% 
   group_by(Country_Region) %>% 
   summarize(total_deaths = sum(Deaths)) %>% 
@@ -89,7 +89,7 @@ report_09_12 %>%
 ```
 *5.*
 Setting up objects sorted with necessary data for plots
-```
+```{r}
 report_03_12_cases <- report_03_12 %>% 
                       group_by(Country_Region) %>% 
                       summarize(total_cases = sum(Confirmed)) %>% 
@@ -115,7 +115,7 @@ report_09_12_deaths <- report_09_12 %>%
                       slice_head(n = 10)
 ```                      
 Creating the plots
-```
+```{r}
 report_03_12_cases_plot <- ggplot(report_03_12_cases, aes(x = Country_Region, y = total_cases)) + geom_point()
 
 report_03_12_deaths_plot <- ggplot(report_03_12_deaths, aes(x = Country_Region, y = total_deaths)) + geom_point()
@@ -126,7 +126,7 @@ report_09_12_deaths_plot <- ggplot(report_09_12_deaths, aes(x = Country_Region, 
 ```
 *6.*
 Creating the bar plots
-```
+```{r}
 report_03_12_cases_bar <- ggplot(report_03_12_cases, aes(x = Country_Region, y = total_cases)) + geom_bar(stat = 'identity')
 
 report_03_12_deaths_bar <- ggplot(report_03_12_deaths, aes(x = Country_Region, y = total_deaths)) + geom_bar(stat = 'identity')
