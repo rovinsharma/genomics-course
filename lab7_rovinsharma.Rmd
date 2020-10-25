@@ -20,19 +20,19 @@ library("airway")
 dir <- system.file("extdata", package="airway", mustWork=TRUE)
 
 ## ----list.files---------------------------------------------------------------
-list.files(dir)  ##
-list.files(file.path(dir, "quants"))
+list.files(dir)  ##lists all the files in the object dir that was created earlier
+list.files(file.path(dir, "quants")) ##opens quants which has its own two more files
 
 ## ----sampleinfo---------------------------------------------------------------
-csvfile <- file.path(dir, "sample_table.csv")
-coldata <- read.csv(csvfile, row.names=1, stringsAsFactors=FALSE)
+csvfile <- file.path(dir, "sample_table.csv") ##creating object csvfile with the sample table from dir
+coldata <- read.csv(csvfile, row.names=1, stringsAsFactors=FALSE) ##csvfile is loaded
 coldata
 
 ## ----makecoldata--------------------------------------------------------------
 coldata <- coldata[1:2,]
-coldata$names <- coldata$Run
-coldata$files <- file.path(dir, "quants", coldata$names, "quant.sf.gz")
-file.exists(coldata$files)
+coldata$names <- coldata$Run  ## a column called names is created
+coldata$files <- file.path(dir, "quants", coldata$names, "quant.sf.gz") ## a column called files is created
+file.exists(coldata$files) ##checking if the column exists, outputs true
 
 ## ----tximeta, message=TRUE----------------------------------------------------
 library("tximeta")
@@ -40,11 +40,11 @@ se <- tximeta(coldata)
 #This requires access to a director, can choose to create a temp director just for this
 
 ## ----lookse-------------------------------------------------------------------
-dim(se)
+dim(se) ##checking dimensions
 head(rownames(se))
 
 ## ----summarize, message=TRUE--------------------------------------------------
-gse <- summarizeToGene(se)
+gse <- summarizeToGene(se)   ##summarizing the transcriptlevel quantifications to gene level and stored in obj se
 
 ## ----lookgse------------------------------------------------------------------
 dim(gse)
@@ -64,6 +64,7 @@ text(25,40,"rowRanges")
 polygon(c(45,90,90,45),c(75,75,95,95),col="palegreen",border=NA)
 polygon(c(45,47,47,45),c(75,75,95,95),col="palegreen3",border=NA)
 text(67.5,85,"colData")
+ ## this was just visualization of all the objects in the summarized gse
 
 ## ----loadfullgse--------------------------------------------------------------
 data(gse)
@@ -75,13 +76,13 @@ head(assay(gse), 3)
 colSums(assay(gse))
 
 ## ----rowrangesgse-------------------------------------------------------------
-rowRanges(gse)
+rowRanges(gse)  ## shows ranges for first 5 and last 5 genes
 
 ## ----lookseqinfo--------------------------------------------------------------
 seqinfo(rowRanges(gse))
 
 ## ----coldatagse---------------------------------------------------------------
-colData(gse)
+colData(gse) ##shows donor id, how they were treated, and sample names
 
 ## ----gsevars------------------------------------------------------------------
 gse$donor
@@ -502,5 +503,5 @@ pheatmap(mat, breaks=seq(from=-thr, to=thr, length=101),
          cluster_col=FALSE)
 
 ## -----------------------------------------------------------------------------
-sessionInfo()
+sessionInfo() #shows version of R just to keep track
 ```
