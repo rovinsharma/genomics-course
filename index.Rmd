@@ -2,12 +2,13 @@
 title: "Index"
 author: "Rovin Sharma"
 date: "8/31/2020"
-output: html_document
+output:
+  prettydoc::html_pretty:
+    theme: leonids
+    highlight: github
 bibliography: data/references.bib
 ---
 This contains links for Rovin's genomics labs.
-
-![:-)](images/Teletubby.jpg)
 
 # Labs
 
