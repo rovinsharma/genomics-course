@@ -67,3 +67,159 @@ MRCA(tree, c("C", "E"))
 MRCA(tree, c("G", "H"))
 ```
 
+**labeling clades**
+```{r}
+ggtree(tree)+
+  geom_tiplab()+
+  geom_cladelabel(node = 17, label = "Clade", color = "red2", offset=.8, align = TRUE)+
+  geom_cladelabel(node = 21, label = "a different clade", color = "blue", offset = .8)
+```
+
+**fixing cutoff**
+```{r}
+ggtree(tree) +
+  geom_tiplab() +
+  geom_cladelabel(node = 17, label = "Clade 1", color = "red2", offset = 0.8, align = TRUE) +
+  geom_cladelabel(node = 21, label = "Clade 2", color = "blue", offset = 0.8)+
+  theme_tree2() + 
+  xlim(0, 80) +
+  theme_tree()
+```
+```{r}
+#highlighting
+ggtree(tree) +
+  geom_tiplab() +
+  geom_highlight(node = 17, fill = "gold") +
+  geom_highlight(node = 21, fill = "purple")
+```
+
+**connecting taxa**
+```{r}
+ggtree(tree) + 
+  geom_tiplab() + 
+  geom_taxalink("E", "H", color="blue3") +
+  geom_taxalink("C", "G", color="orange2", curvature=-.9)
+```
+
+# Exercise 3
+```{r}
+ggtree(tree) +
+  geom_tiplab() +
+  geom_hilight(node = 19, fill = "blue") +
+  geom_hilight(node = 23, fill = "gold") +
+  geom_cladelabel(node = 17, label = "Superclade 17", color = "red2", offset = 0.8) +
+  geom_taxalink("C", "E", color = "gray50", linetype = 2) +
+  geom_taxalink("G", "J", color = "gray50", linetype = 2) +
+  theme_tree2() +
+  ggtitle("Mihi arborum")
+```
+
+**Advanced tree annotation**
+```{r, fig.height = 10}
+tree <- read.beast("data/flu_tree_beast.tree")
+
+ggtree(tree, mrsd="2013-01-01") +
+  theme_tree2() +
+  geom_tiplab(align = TRUE, linesize = 0.5) +
+  xlim(1990, 2020)
+```
+```{r}
+msaplot(p = ggtree(tree), fasta = "data/flu_aasequence.fasta", window = c(150, 175)) +
+  coord_polar(theta = "y")
+```
+
+**many trees**
+```{r}
+set.seed(42)
+trees <- lapply(rep(c(10,25,50,100),3),rtree)
+class(trees) <- "multiPhylo"
+ggtree(trees) +
+  facet_wrap(~.id, scale = "free", ncol = 4) +
+  ggtitle("og doge meme")
+```
+
+**plot tree with other data**
+```{r}
+tree <- rtree(30)
+
+p <- ggtree(tree)
+
+d1 <- data.frame(id=tree$tip.label, val=rnorm(30, sd=3))
+
+p2 <- facet_plot(p, panel="dot", data=d1, geom=geom_point, aes(x=val), color='red3')
+
+d2 <- data.frame(id=tree$tip.label, value = abs(rnorm(30, mean=100, sd=50)))
+
+p3 <- facet_plot(p2, panel='bar', data=d2, geom=geom_segment, 
+           aes(x=0, xend=value, y=y, yend=y), size=3, color='blue4') 
+
+p3 + theme_tree2()
+```
+
+**overlay organisms**
+```{r}
+
+newick <- "((Pongo_abelii,(Gorilla_gorilla_gorilla,(Pan_paniscus,Pan_troglodytes)Pan,Homo_sapiens)Homininae)Hominidae,Nomascus_leucogenys)Hominoidea;"
+
+tree <- read.tree(text=newick)
+
+d <- ggimage::phylopic_uid(tree$tip.label)
+d$body_mass = c(52, 114, 47, 45, 58, 6)
+
+p <- ggtree(tree) %<+% d + 
+  geom_tiplab(aes(image=uid, colour=body_mass), geom="phylopic", offset=2.5) +
+  geom_tiplab(aes(label=label), offset = .2) + xlim(NA, 7) +
+  scale_color_viridis_c()
+p 
+```
+
+# Tree from CIPRES output
+```{r}
+fasttree <- read.tree("data/fastree_result.tre")
+
+ggtree(fasttree) +
+  geom_tiplab(hjust = -.1, size = 3) +
+  xlim(0,2)  +
+  geom_hilight(node = 30, fill = "red2", extend = 0.46) +
+  geom_hilight(node = 25, fill = "blue4", extend = 0.38) +
+  geom_hilight(node = c(36, 1, 2), fill = "green3", extend = 0.58)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
