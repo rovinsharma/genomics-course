@@ -28,5 +28,5 @@ This contains links for Rovin's genomics labs.
 6. [Data Maps and Interactive Graphs from the COVID-19 reporting data](lab6_rovinsharma.html)
 7. [RNA-Seq workflow](lab7_rovinsharma.html)
 8. [Sequence Alignment, Phylogenetic Analysis and Tree Visualization](lab8_rovinsharma.html)
-9. [Sequences Alignment](lab8_rovinsharma.html)   
+9. 
 
