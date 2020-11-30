@@ -1,12 +1,6 @@
 ---
 title: "Lab 9"
 author: "Rovin Sharma"
-date: "11/30/2020"
-output: html_document
----
----
-title: "Lab 9"
-author: "Rovin Sharma"
 date: "11/5/2020"
 output: 
   html_document: 
