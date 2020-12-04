@@ -1,0 +1,264 @@
+---
+title: "Lab 10"
+author: "Rovin Sharma"
+date: "12/4/2020"
+output: html_document
+---
+
+## Part I - Reading VCF data
+
+Genetic variation data is typically stored in variant call format (VCF) files
+This format is the preferred file format obtained from genome sequencing or high throughput genotyping.
+One advantage of using VCF files is that only variants (e.g., SNPs, indels, etc.) are reported which economizes files size relative to a format that may included invariant sites.
+Variant callers typically attempt to aggressively call variants with the perspective that a downstream quality control step will remove low quality variants.
+Note that VCF files come in different flavors and that each variant caller may report a slightly different information.
+
+### VCF file structure
+
+A VCF file can be thought of as having three sections: a **vcf header**, a **fix region** and a **gt region**.
+The VCF meta region is located at the top of the file and contains meta-data describing the body of the file.
+Each VCF meta line begins with a '##'.
+The information in the meta region defines the abbreviations used elsewhere in the file.
+It may also document software used to create the file as well as parameters used by this software.
+Below the metadata region, the data are tabular.
+The first eight columns of this table contain information about each variant.
+This data may be common over all variants, such as its chromosomal position, or a summary over all samples, such as quality metrics.
+These data are fixed, or the same, over all samples.
+The fix region is required in a VCF file, subsequent columns are optional but are common in our experience.
+Beginning at column ten is a column for every sample.
+The values in these columns are information for each sample and each variant.
+The organization of each cell containing a genotype and associated information is specified in column nine, the FORMAT column.
+The location of these three regions within a file can be represented by this cartoon:
+
+
+```{r, fig.cap="Cartoon representation of VCF file organization", echo=FALSE, fig.height=4, fig.width=4, fig.align='center', }
+par(mar=c(0.1,0.1,0.1,0.1))
+plot(c(0,5), c(0,5), type="n", frame.plot=FALSE, axes=FALSE, xlab="", ylab="")
+rect(xleft=0, ybottom=4, xright=3, ytop=5)
+rect(xleft=0, ybottom=0, xright=2, ytop=4)
+rect(xleft=2, ybottom=0, xright=5, ytop=4)
+text(1.5, 4.7, "Meta information", cex=1)
+text(1.5, 4.4, "(@meta)", cex=1)
+text(1.0, 2.5, "Fixed information", cex=1)
+text(1.0, 2.2, "(@fix)", cex=1)
+text(3.5, 2.5, "Genotype information", cex=1)
+text(3.5, 2.2, "(@gt)", cex=1)
+par(mar=c(5,4,4,2))
+```
+
+
+The VCF file specification is flexible.
+This means that there are slots for certain types of data, but any particular software which creates a VCF file does not necessarily use them all.
+Similarly, authors have the opportunity to include new forms of data, forms which may not have been foreseen by the authors of the VCF specification.
+The result is that all VCF files do not contain the same information.
+
+
+For this example, we will use example data provided with the R package *vcfR*.
+
+
+```{r}
+library(vcfR)
+data(vcfR_example)
+vcf
+```
+
+
+The function `library()` loads libraries.
+The function `data()` loads datasets that were included with R and its packages.
+Our usage of `data()` loads the objects 'gff', 'dna' and 'vcf' from the 'vcfR_example' dataset.
+
+
+### The meta region
+
+
+The meta region has metadata.
+Each line of the meta region begins with a double pound sign ('##').
+The example which comes with *vcfR* is shown below.
+(Only the first seven lines are shown for brevity.)
+
+
+```{r, echo=TRUE, tidy=TRUE}
+strwrap(vcf@meta[1:7])
+```
+
+
+The first line contains the version of the VCF format used in the file.
+This line is required.
+The second line specifies the software which created the VCF file.
+This is not required, so not all VCF files include it.
+When they do, the file becomes self documenting.
+Note that the alignment software is not included here because it was used upstream of the VCF file's creation (aligners typically create \*.SAM or \*.BAM format files).
+Because the file can only include information about the software that created it, the entire pipeline does not get documented.
+Some VCF files may contain a line for every chromosome (or supercontig or contig depending on your genome), so they may become rather long.
+Here, the remaining lines contain INFO and FORMAT specifications which define abbreviations used in the fix and gt portions of the file.
+
+
+The meta region may include long lines that may not be easy to view.
+In *vcfR* we've created a function to help press this data.
+
+
+```{r}
+queryMETA(vcf)
+```
+
+
+When the function `queryMETA()` is called with only a *vcfR* object as a parameter, it attempts to summarize the meta information.
+But 'contig' isn't shown to keep it short and relevant.
+
+
+```{r}
+queryMETA(vcf, element = 'DP')
+```
+
+
+Only 'DP' info is returned, add more parameters like below.
+
+
+```{r}
+queryMETA(vcf, element = 'FORMAT=<ID=DP')
+```
+
+
+Here we've isolated the definition of 'DP' as a 'FORMAT' element.
+Note that the function `queryMETA()` includes the parameter `nice` which by default is TRUE and attempts to present the data in a nicely formatted manner.
+However, our query is performed on the actual information in the 'meta' region.
+It is therefore sometimes appropriate to set `nice = FALSE` so that we can see the raw data.
+In the above example the angled bracket ('<') is omitted from the `nice = TRUE` representation but is essential to distinguishing the 'FORMAT' element from the 'INFO' element.
+
+
+### The fix region
+
+The fix region contains information for each variant which is sometimes summarized over all samples.
+The first eight columns of the fixed region are titled CHROM, POS, ID, REF, ALT, QUAL, FILTER and INFO.
+This is per variant information which is 'fixed', or the same, over all samples.
+The first two columns indicate the location of the variant by chromosome and position within that chromosome.
+Here, the ID field has not been used, so it consists of missing data (NA).
+The REF and ALT columns indicate the reference and alternate allelic states for a diploid sample.
+When multiple alternate allelic states are present they are delimited with commas.
+The QUAL column attempts to summarize the quality of each variant over all samples.
+The FILTER field is not used here but could contain information on whether a variant has passed some form of quality assessment.
+
+
+```{r, echo=TRUE}
+head(getFIX(vcf))
+```
+
+
+
+The eigth column, titled INFO, is a semicolon delimited list of information.
+It can be rather long and cumbersome.
+The function `getFIX()` will suppress this column by default.
+Each abbreviation in the INFO column should be defined in the meta section.
+We can validate this by querying the meta portion, as we did in the 'meta' section above.
+
+
+### The gt region
+
+
+The gt (genotype) region contains information about each variant for each sample.
+The values for each variant and each sample are colon delimited.
+Multiple types of data for each genotype may be stored in this manner.
+The format of the data is specified by the FORMAT column (column nine).
+Here we see that we have information for GT, AD, DP, GQ and PL.
+The definition of these acronyms can be referenced by querying the the meta region, as demonstrated previously.
+Every variant does not necessarily have the same information (e.g., SNPs and indels may be handled differently), so the rows are best treated independently.
+Different variant callers may include different information in this region.
+
+
+```{r, echo=TRUE, tidy=TRUE}
+vcf@gt[1:6, 1:4]
+```
+
+
+### vcfR
+
+After we have made any manipulations of the file we can save it as a VCF file with the function `write.vcf()`.
+
+
+```{r, eval = FALSE}
+##(vcf, "myVCFdata_filtered.vcf.gz")
+```
+
+
+`write.vcf()`will write a file to your active directory.
+We now have a summary of our VCF file which we can use to help understand what forms of information are contained within it.
+This information can be further explored with plotting functions and used to filter the VCF file for high quality variants as we will see in the next section.
+
+
+### Exercises Part I
+
+
+**1)** How would we find more information about `read.vcfR()`?
+
+```{r}
+?read.vcfR
+```
+
+
+**2)** How would we learn what the acronym "AD" stands for?
+
+
+```{r}
+queryMETA(vcf, element = 'AD')
+```
+
+
+**3)** We used the `head()` function to view the **first** few lines of `fix` data.
+How would we view the **last** few lines of `fix` data?
+
+
+```{r}
+tail(vcf@fix)
+```
+
+**4)** There is a column in the `fix` portion of the data called `QUAL`.
+It is not defined in the `meta` portion of the data because it is defined in the [VCF specification](http://samtools.github.io/hts-specs/).
+It stands for 'quality'.
+Does `QUAL` appear useful to us? Why or why not?
+
+```{r}
+plot(vcf)
+```
+QUAL seems useful because its
+
+
+**5)** How would we query the sample names?
+
+```{r}
+colnames(vcf@gt)
+```
+
+## Part II - Analysis of Genome Data
+
+### Introduction
+
+Analysis of genome data for populations can be seen as similar to the analyses of other marker systems discussed in previous chapters of this book, except that genome data analyses include larger quantities of data. For example, VCF data can be read into R using *vcfR* to create a *vcfR* object. This object can be converted into a genlight object and then a snpclone object if deemed necessary. Analysis on these objects has been covered in previous sections. Genome scale data provides additional analytical options as well. For example, when assumptions about the neutrality of the majority of the genome are appropriate, this can be used as a null hypothesis and used to help identify markers that differentiate from this assumption. Here we'll provide examples of how genomic data may be analyzed.
+
+
+```{r child = 'Grunwald/data_genome.Rmd'}
+```
+
+
+### Opening and examining the dataset
+
+
+We'll read our VCF data into R using the function `read.vcfR()`.
+
+```{r, results='hide'}
+library('vcfR')
+vcf <- read.vcfR("Grunwald/pinfsc50_filtered.vcf.gz")
+```
+
+
+```{r}
+vcf
+```
+
+The `show` method reports that we have `r ncol(vcf@gt) - 1` samples and `r format(nrow(vcf@fix), big.mark = ",")` variants.
+If this matches our expectation then we can proceed.
+
+**4)** Can you use the function `queryMETA()` to look for other data in your file that may be of interest?
+
+```{r hide_button = TRUE}
+queryMETA(vcf)
+```
