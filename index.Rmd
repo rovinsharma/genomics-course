@@ -29,4 +29,7 @@ This contains links for Rovin's genomics labs.
 7. [RNA-Seq workflow](lab7_rovinsharma.html)
 8. [Sequence Alignment, Phylogenetic Analysis and Tree Visualization](lab8_rovinsharma.html)
 9. [Regular Expressions](lab9_rovinsharma.html)
+10. [Population genomics based on high throughput sequencing](lab10_rovinsharma.html)
+11. [Microbiome Analysis using dada2 and phyloseq](lab11_rovinsharma.html)
+
 
